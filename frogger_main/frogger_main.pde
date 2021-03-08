@@ -6,7 +6,6 @@ Record after 5161 trials was 4896 wins - 265 losses
 Part 2 - Widrow Hoff Results:
 Record after 512 trials was 397 wins - 115 losses
 */
-//asdf
 
 import java.util.Random;
 
