@@ -1,3 +1,9 @@
+/**
+  Game running function
+  - Handles frame incrementing and object updating/drawing
+  - Handles frog win/lose condition
+  - Handles updating learning algorithm
+*/
 void draw() {
   frame++;
   int frame_mod = FROG_FRAMES;
@@ -43,10 +49,13 @@ void draw() {
   // Update model if we just moved or if we're getting killed because of our last move
   //if (frame % frame_mod == 0 || dead_frog) {
     boolean[][] new_environment = get_nearby_squares();
-    update_q(best_move, environment, new_environment, reward, WIDROW_HOFF);
+    update_q(best_move, environment, new_environment, reward);
   //}
 }
 
+/**
+  Helper for drawing trucks in the scene
+*/
 void draw_trucks() {
   fill(120, 0, 0);
   for (int i = 0; i < TRUCK_ROWS; i++) {
@@ -57,6 +66,9 @@ void draw_trucks() {
   }
 }
 
+/**
+  Helper for drawing the frog in the scene
+*/
 void draw_frog(boolean dead_frog) {
   if (dead_frog) {
     fill(240, 0, 0);

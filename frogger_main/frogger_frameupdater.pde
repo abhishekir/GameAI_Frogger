@@ -1,3 +1,6 @@
+/**
+  Handler for updating the truck's position
+*/
 void update_trucks(float truck_speed) {
   for (int i = 0; i < TRUCK_ROWS; i++) {
     for (int j = 0; j < TRUCKS_PER_ROW; j++) {
@@ -16,8 +19,9 @@ void update_trucks(float truck_speed) {
   }
 }
 
-
-
+/**
+  Handler for updating the frog's position
+*/
 void move_frog(int best_move) {
   if (best_move == MOVE_LEFT) {
     frog_x--;
@@ -30,6 +34,10 @@ void move_frog(int best_move) {
   }
 }
 
+/**
+  Checks if the frog's position is a death condition
+  i.e. frog is out of bounds or within a truck's box
+*/
 boolean check_death() {
   // Die if we wander off the playing field
   if (frog_x < 0 || frog_x >= GAME_WIDTH_IN_SQUARES || frog_y < 0 || frog_y >= GAME_HEIGHT_IN_SQUARES) {
@@ -45,7 +53,11 @@ boolean check_death() {
   return false;
 }
 
-// square_x and square_y are in FROG_WIDTH boxes
+/**
+  Helper for check_death()
+  Checks for overlap between truck and frog hitboxes
+  square_x and square_y are in FROG_WIDTH boxes
+*/
 boolean truck_in_square(int truck_row, int truck, int square_x, int square_y) {
   if ((truck_row + 1) != square_y) {
     return false;

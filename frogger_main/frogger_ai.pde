@@ -1,3 +1,6 @@
+/**
+  Reinforcement learning algorithm runner
+*/
 int decide_move(boolean[][] environment, boolean widrowHoff) {
   return QLearningAction(environment);    
 }
@@ -6,6 +9,9 @@ int decide_move(boolean[][] environment, boolean widrowHoff) {
 //environment -> action = QValue
 float[][] QStore = new float[256][5];
 
+/**
+  Helper function to retrieve the highest value action based on the environment
+*/
 int getBestAction(int environmentCode) {
   float[] environmentActions = QStore[environmentCode];
   int bestAction = 0;
@@ -19,7 +25,9 @@ int getBestAction(int environmentCode) {
   return bestAction;
 }
 
-
+/**
+  Q-Learning Algorithm runner
+*/
 int QLearningAction(boolean[][] environment) {
   float pRandomAction = 0.8/(wins+1);
   float random = rng.nextFloat();
@@ -34,7 +42,9 @@ int QLearningAction(boolean[][] environment) {
   return action;
 }
 
-// returns a 2-d boolean array representing if the squares around the frog are occupied
+/**
+  Returns a 2-d boolean array representing if the squares around the frog are occupied
+*/
 boolean[][] get_nearby_squares() {
   boolean[][] environment = new boolean[3][3];
   for (int i = 0; i < 3; i++) {
@@ -58,12 +68,17 @@ boolean[][] get_nearby_squares() {
   return environment;
 }
 
+/**
+  Helper to translate boolean to int
+*/
 int toInt(boolean v) {
-  return (v? 1 : 0);
+  return (v ? 1 : 0);
 }
 
-// A helper to get a unique index for a particular environment, created using
-// a binary code for the environment - index into Q(state, action) array with this
+/**
+  A helper to get a unique index for a particular environment, created using
+  A binary code for the environment - index into Q(state, action) array with this
+*/
 int get_environment_code(boolean[][]environment) {
   return toInt(environment[0][0]) * 128 + toInt(environment [0][1])*64
                        + toInt(environment[0][2]) * 32 + toInt(environment[1][0])*16
@@ -71,16 +86,21 @@ int get_environment_code(boolean[][]environment) {
                        + toInt(environment[2][1]) * 2 + toInt(environment[2][2])*1;
 }
 
-/* Data Structure for storing action-location possiblities
- - 5 actions (up, down, left, right, wait)
- - 3 surrounding rows
- - 3 surrounding columns
- Indexing sequence: arr[action][row][column]
+/**
+  Data Structure for storing action-location possiblities
+  - 5 actions (up, down, left, right, wait)
+  - 3 surrounding rows
+  - 3 surrounding columns
+  Indexing sequence: arr[action][row][column]
 */
 float[][][] widrow_weights = new float[5][3][3];
 
+/**
+  Reinforcement Learning Alrogithm Logic
+  Contains logic for Q-Learning and WidrowHoff approaches
+*/
 void update_q(int best_move, boolean[][] environment,
-              boolean[][] new_environment, float reward, boolean widrowHoff) {
+              boolean[][] new_environment, float reward) {
    // TODO - Q-learning with or without Widrow-Hoff rule
    
    int initialEnvironment = get_environment_code(environment);
@@ -90,7 +110,7 @@ void update_q(int best_move, boolean[][] environment,
    int bestNextAction = getBestAction(finalEnvironment);
    float maxQ = QStore[finalEnvironment][bestNextAction];
    
-   if(!widrowHoff) { //Q-Learning Q Function
+   if(!WIDROW_HOFF) { //Q-Learning Q Function
      QStore[initialEnvironment][best_move] = ((1 - LEARNING_RATE) * originalQ) 
      + (LEARNING_RATE*(reward + (DISCOUNT_FACTOR * maxQ)));
    } else { //Widrow-Hoff Q Function
@@ -118,13 +138,11 @@ void update_q(int best_move, boolean[][] environment,
        }
      }
      
-     /*
-     for (int i = 0; i < widrow_weights[best_move].length; i++) {
-       for (int j = 0; j < widrow_weights[best_move][i].length; j++) {
-         widrow_weights[best_move][i][j] += LEARNING_RATE * error * v;
-       }
-     }
-     */
+     //for (int i = 0; i < widrow_weights[best_move].length; i++) {
+     //  for (int j = 0; j < widrow_weights[best_move][i].length; j++) {
+     //    widrow_weights[best_move][i][j] += LEARNING_RATE * error * v;
+     //  }
+     //}
    }
    return;
 }

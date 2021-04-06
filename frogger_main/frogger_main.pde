@@ -1,14 +1,15 @@
-/*
-Part 1 - Q-Learning Results:
-Record after 542 trials was 360 wins - 182 losses
-Record after 5161 trials was 4896 wins - 265 losses
-
-Part 2 - Widrow Hoff Results:
-Record after 512 trials was 397 wins - 115 losses
+/**
+  Q-Learning Results:
+  Record after 542 trials was 360 wins - 182 losses
+  Record after 5161 trials was 4896 wins - 265 losses
+  
+  Widrow Hoff Results:
+  Record after 512 trials was 397 wins - 115 losses
 */
 
 import java.util.Random;
 
+// Game Initialization Constants
 static int FROG_WIDTH = 40;
 static int GAME_WIDTH_IN_SQUARES = 12;
 static int GAME_WIDTH = FROG_WIDTH * GAME_WIDTH_IN_SQUARES;
@@ -34,7 +35,6 @@ static float[][] truck_x = {{0, 100, 300},
 Random rng = new Random();
 
 // Constants for frog moves, indexing into policy
-
 static int STAY = 0;
 static int MOVE_LEFT = 1;
 static int MOVE_RIGHT = 2;
@@ -49,7 +49,7 @@ static int frame = 0;
 static int deaths = 0;
 static int wins = 0;
 // Only allow action every this many frames
-static int FROG_FRAMES = 1;
+static int FROG_FRAMES = 3;
 
 static float LEARNING_RATE = 0.2;
 static float DISCOUNT_FACTOR = 0.3;
